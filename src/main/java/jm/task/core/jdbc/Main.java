@@ -1,18 +1,19 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDao;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
-        // реализуйте алгоритм здесь
         // Создание таблицы User(ов)
+        System.out.println("---Создание таблицы User(ов)---");
         UserService userService = new UserServiceImpl();
         userService.createUsersTable();
+        System.out.println(userService.getAllUsers());
+        System.out.println("---Добавление 4 User(ов)---");
         //Добавление 4 User(ов)
         userService.saveUser("Tom", "Kruz", (byte) 59);
+        System.out.println(userService.getAllUsers());
         System.out.printf("User с именем – %s добавлен в базу данных\n",
                 userService.getAllUsers().get(0).getName());
         userService.saveUser("Will", "Smith", (byte) 53);
@@ -27,11 +28,15 @@ public class Main {
 
         //Получение всех User из базы и вывод в консоль
         System.out.println(userService.getAllUsers());
+        System.out.println("---Очистка таблицы User(ов)---");
 
         //Очистка таблицы User(ов)
         userService.cleanUsersTable();
+        System.out.println(userService.getAllUsers());
+        System.out.println("---Удаление таблицы---");
 
         //Удаление таблицы
         userService.dropUsersTable();
+
    }
 }
