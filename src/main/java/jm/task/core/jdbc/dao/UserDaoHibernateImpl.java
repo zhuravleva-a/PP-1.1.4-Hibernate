@@ -17,12 +17,12 @@ public class UserDaoHibernateImpl implements UserDao {
     private SessionFactory sessionFactory;
 
     public UserDaoHibernateImpl() {
-        sessionFactory = Util.getSessionFactory();
-    }
 
+    }
 
     @Override
     public void createUsersTable() {
+
         try(Session session = Util.getSessionFactory().openSession()) {
 
             Transaction transaction = session.beginTransaction();
@@ -38,18 +38,19 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void dropUsersTable() {
 
         try(Session session = Util.getSessionFactory().openSession()) {
+
             Transaction transaction = session.beginTransaction();
             String SQLRequest = "DROP TABLE IF EXISTS users";
             Query query = session.createSQLQuery(SQLRequest);
             query.executeUpdate();
             transaction.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +59,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
+
         Transaction transaction = null;
         try(Session session = Util.getSessionFactory().openSession()) {
 
@@ -74,14 +76,13 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void removeUserById(long id) {
         try(Session session = Util.getSessionFactory().openSession()) {
+
             Transaction transaction = session.beginTransaction();
             String HQLRequest = "delete from User user where user.id = ?1";
-
             Query deleteQuery = session.createQuery(HQLRequest);
             deleteQuery.setParameter(1, id);
             deleteQuery.executeUpdate();
             transaction.commit();
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,6 +92,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
+
         List<User> allUsers = new ArrayList<>();
 
         try(Session session = Util.getSessionFactory().openSession()) {
@@ -99,9 +101,7 @@ public class UserDaoHibernateImpl implements UserDao {
             CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
             Root<User> root = criteriaQuery.from(User.class);
             Query query = session.createQuery(criteriaQuery);
-
             allUsers = query.getResultList();
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,6 +113,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void cleanUsersTable() {
         try(Session session = Util.getSessionFactory().openSession()) {
+
             Transaction transaction = session.beginTransaction();
             String HQLRequest = "delete from User";
             Query deleteQuery = session.createQuery(HQLRequest);
